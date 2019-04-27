@@ -3,7 +3,6 @@ from sqlalchemy import Column, Numeric, String, Integer, ForeignKey, func, creat
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-timestamp = datetime.utcnow()
 metadata = MetaData()
 
 product = Table(
@@ -25,8 +24,8 @@ product = Table(
     Column('sugars', Numeric, nullable=True),
     Column('protein', Numeric, nullable=True),
     Column('salt', Numeric, nullable=True),
-    Column('last_update', DateTime, default=timestamp, nullable=False),
-    Column('created', DateTime, default=timestamp, nullable=False),
+    Column('last_update', DateTime, default=datetime.utcnow(), nullable=False),
+    Column('created', DateTime, default=datetime.utcnow(), nullable=False),
 )
 
 category = Table(

@@ -44,7 +44,7 @@ product_data = []
 
 session = HTMLSession()
 
-while False:
+while True:
     request = session.get(URL + page_string + str(page))
     products = request.html.xpath("//a[@class='product-tile--title product-tile--browsable']")
     if not products:
@@ -59,6 +59,3 @@ while False:
         calories = get_calories(calories_row)
         add_to_products(name=product.text, link=product.attrs['href'], calories=calories)
     page += 1
-
-for c in db.product.c:
-    print(c)
