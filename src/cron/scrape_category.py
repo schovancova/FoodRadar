@@ -1,78 +1,34 @@
 from requests_html import HTMLSession
-from src.modules.connector import session, Product, Store, Category
-
-
-def get_calories_row(nutrients_table):
-    possible_placements = [
-        "//div/table/tbody/tr/td[not(text())]/following-sibling::td[contains(.,'kcal')]",
-        "//div/table/tbody/tr/td[contains(.,'Energ') or contains(.,'energ')]/following-sibling::td",
-        "//div/table/tbody/tr/td[contains(.,'kcal')]/following-sibling::td"
-    ]
-    for placement in possible_placements:
-        row = nutrients_table.xpath(placement, first=True)
-        if row:
-            return row
-    raise ValueError("Could not find calories row")
-
-
-def get_calories(nutrients_info):
-    calories_part = (nutrients_info.text.split("kcal")[0]).strip()
-    result = ""
-    for symbol in reversed(calories_part):
-        if not symbol.isdigit():
-            break
-        result = symbol + result
-    return result
-
-
-def get_product_id(store_product_id, store_id):
-    product_row = session.query(Product.id).filter(
-        Product.store_product_id == store_product_id).filter(Product.store == store_id).first()
-    return product_row.id if product_row else None
-
-
-def add_product(attrs):
-    product = Product(**attrs)
-    session.add(product)
-
-
-def update_product(product_id, attrs):
-    session.query(Product).filter_by(id=product_id).update(**attrs)
-    session.commit()
+from src.modules.product import ProductTesco
+from src.modules.store import Tesco
 
 
 def scrape(store, category):
+    store = Tesco(store)
     page = 1
-    page_string = "/all?page="
-    category_link = store.link + "shop/" + category.link + page_string
-    product_link = store.link + "products/"
-
     html_session = HTMLSession()
     while True:
-        request = html_session.get(category_link + str(page))
-        products = request.html.xpath("//a[@class='product-tile--title product-tile--browsable']")
+        request = html_session.get(store.get_category_link(category.link) + str(page))
+        products = request.html.xpath(store.xpath["products"])
         if not products:
             break
         for p in products:
-            store_product_id = p.attrs['href'].rsplit('/', 1)[1]
-            request = html_session.get(product_link + store_product_id)
-            nutrients_div = request.html.xpath(
-                "//div/h3[contains(.,'Výživové hodnoty')]/parent::*", first=True)
+            product = ProductTesco(p)
+            product_link = product.get_link(store.products_link)
+            request = html_session.get(product_link)
+            nutrients_div = request.html.xpath(product.xpath["nutrients_div"], first=True)
             if not nutrients_div:
                 continue
-            calories_row = get_calories_row(nutrients_div)
-            calories = get_calories(calories_row)
+            calories = product.get_calories(nutrients_div)
+            price_div = request.html.xpath(product.xpath["price_div"], first=True)
+            price = product.get_price(price_div)
             product_info = dict(
-                store_product_id=store_product_id,
                 name=p.text,
                 calories=calories,
-                price=1,
+                price=price,
                 unit_price=True,
+                unit_type="kg",
                 category=category.id,
-                store=store.id)
-            product_id = get_product_id(store_product_id, store.link)
-            if product_id:
-                update_product(product_id, product_info)
-            else:
-                add_product(product_info)
+                store=store.store.id)
+            product.update_or_insert(**product_info)
         page += 1

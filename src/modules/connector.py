@@ -18,8 +18,10 @@ class Product(Base):
     is_discount = Column(Boolean, nullable=False, default=True)
     # price during discount
     discount_price = Column(Numeric, nullable=True)
-    # is the price per unit or per kg
-    unit_price = Column(Boolean, nullable=False)
+    # price per unit
+    unit_price = Column(Numeric, nullable=False)
+    # type of unit (kg/l/..)
+    unit_type = Column(String, nullable=False)
     weight = Column(Numeric, nullable=True)
     calories = Column(Numeric, nullable=True)
     fats = Column(Numeric, nullable=True)
