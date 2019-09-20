@@ -1,5 +1,5 @@
 
-class Tesco():
+class Tesco:
     def __init__(self, store):
         self.store = store
         self.page_picker = "/all?page="

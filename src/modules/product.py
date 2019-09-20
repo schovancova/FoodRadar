@@ -2,7 +2,7 @@
 from src.modules.connector import session, Product, Store
 
 
-class ProductTesco():
+class ProductTesco:
     def __init__(self, product_html):
         self.store = session.query(Store).filter(Store.name == "Tesco").first()
         self.product_html = product_html
