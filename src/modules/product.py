@@ -1,10 +1,11 @@
 """Product representation on the site"""
-from src.modules.connector import session, Product, Store
+from src.modules.connector import Product
 
 
 class ProductTesco:
-    def __init__(self, product_html):
-        self.store = session.query(Store).filter(Store.name == "Tesco").first()
+    def __init__(self, session, store_id, product_html):
+        self.session = session
+        self.store_id = store_id
         self.product_html = product_html
         self.xpath = {
             "nutrients_div": "//div/h3[contains(.,'Výživové hodnoty')]/parent::*",
@@ -49,11 +50,11 @@ class ProductTesco:
         return float(price_div.text.replace(",", "."))
 
     def update_or_insert(self, **kwargs):
-        product_row = session.query(Product.id).filter(
-            Product.store_product_id == self.product_id).filter(Product.store == self.store.id)
-        if product_row:
+        product_row = self.session.query(Product.id).filter(
+            Product.store_product_id == self.product_id).filter(Product.store_id == self.store_id)
+        if product_row.first():
             product_row.update(kwargs)
-            session.commit()
         else:
-            product = Product(kwargs)
-            session.add(product)
+            product = Product(**kwargs)
+            self.session.add(product)
+        self.session.commit()

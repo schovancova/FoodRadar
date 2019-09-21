@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% set active_page = "categories" %}
+{% block content %}
+    {% for store in stores %}
+    <h2>{{store.name}}</h2>
+        <ul>
+            {% for category in store.categories %}
+                <li><a href="{{ url_for('category', category_id=category.id) }}"> {{category.full_name}}</a></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

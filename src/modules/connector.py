@@ -3,7 +3,7 @@ import os
 from sqlalchemy import Column, Numeric, String, Integer, ForeignKey, create_engine, DateTime, Boolean
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 Base = declarative_base()
 
@@ -12,7 +12,8 @@ class Product(Base):
     __tablename__ = 'product'
     id = Column(Integer, primary_key=True)
     store_product_id = Column(Integer, nullable=False)
-    category = Column(ForeignKey('category.id'), nullable=False)
+    category_id = Column(ForeignKey('category.id'), nullable=False)
+    category = relationship("Category", backref="products")
     name = Column(String, nullable=False)
     price = Column(Numeric, nullable=False)
     is_discount = Column(Boolean, nullable=False, default=True)
@@ -31,7 +32,8 @@ class Product(Base):
     salt = Column(Numeric, nullable=True)
     last_update = Column(DateTime, default=datetime.utcnow, nullable=False)
     created = Column(DateTime, default=datetime.utcnow, nullable=False)
-    store = Column(ForeignKey('store.id'), nullable=False)
+    store_id = Column(Integer, ForeignKey('store.id'), nullable=False)
+    store = relationship("Store", backref="products")
 
 
 # product categories
@@ -43,7 +45,8 @@ class Category(Base):
     link = Column(String, nullable=False)
     # name as seen on website
     full_name = Column(String, nullable=False)
-    store = Column(ForeignKey('store.id'), nullable=False)
+    store_id = Column(ForeignKey('store.id'), nullable=False)
+    store = relationship("Store", backref="categories")
     category = Column(ForeignKey('category.id'), nullable=True)
 
 
@@ -57,7 +60,8 @@ class Store(Base):
 
 project_root = os.path.dirname(os.path.dirname(__file__))
 output_path = os.path.join(project_root, 'db/db.db')
-engine = create_engine('sqlite:///' + output_path)
+engine = create_engine('sqlite:///' + output_path, connect_args={'check_same_thread': False})
+#Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()

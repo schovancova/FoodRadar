@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% set active_page = "products" %}
+{% block content %}
+
+{% if is_scraping %}
+<script>
+setTimeout(function(){
+   window.location.reload(1);
+}, 3000);
+</script>
+{% endif %}
+
+
+<table class="full-table">
+    <tr>
+        <th>Name</th>
+        <td>{{category.full_name}}</td>
+    </tr>
+    <tr>
+        <th>Store</th>
+        <td><a href="{{category.store.link}}">{{category.store.name}}</a></td>
+    </tr>
+    <tr>
+        <th>Size</th>
+        <td>{{products|length}} products</td>
+    </tr>
+    {% if not is_scraping %}
+    <tr>
+        <th>Actions</th>
+        <td><a href="{{ url_for('category', category_id=category.id, action='scrape') }}">Scrape</a> |
+            <a href="{{ url_for('category', category_id=category.id, action='delete') }}">Clear</a> </td>
+    </tr>
+    {% else %}
+    <tr>
+        <th>Scraping</th>
+        <td>In progress |
+            <a href="{{ url_for('category', category_id=category.id, action='stop') }}">Stop</a> </td>
+    </tr>
+    {% endif %}
+</table>
+<table class="full-table">
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Calories</th>
+  </tr>
+ {% for product in products %}
+ <tr>
+  <td>{{product.name}}</td>
+  <td class="numeric">{{'%0.2f'|format(product.price|float)}}</td>
+  <td class="numeric">{{'%0.2f'|format(product.calories|float)}}</td>
+ </tr>
+ {% endfor %}
+
+</table>
+
+{% endblock %}

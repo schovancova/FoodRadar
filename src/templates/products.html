@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% set active_page = "products" %}
+{% block content %}
+<table class="full-table">
+  <tr>
+    <th>Category</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Calories</th>
+  </tr>
+ {% for product in products %}
+ <tr>
+     <td><a href="/category/{{product.category_id}}">{{product.category.full_name}}</a></td>
+  <td>{{product.name}}</td>
+  <td class="numeric">{{'%0.2f'|format(product.price|float)}}</td>
+  <td class="numeric">{{'%0.2f'|format(product.calories|float)}}</td>
+ </tr>
+ {% endfor %}
+
+</table>
+
+{% endblock %}
