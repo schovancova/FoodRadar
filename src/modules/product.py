@@ -31,7 +31,7 @@ class ProductTesco:
             if row:
                 break
         if not row:
-            raise ValueError("Could not find calories row")
+            return None
         if "kcal" in row.text:
             calories_part = (row.text.split("kcal")[0]).strip()
         elif "kJ" in row.text:

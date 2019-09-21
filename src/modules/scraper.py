@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from src.modules.connector import engine
 from src.modules.product import ProductTesco
 from src.modules.store import Tesco
+from src.modules.logger import get_logger
 
 
 def stop_scraping():
@@ -20,7 +21,6 @@ def stop_scraping():
 class Scraper(threading.Thread):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print(kwargs)
         self.category = kwargs['target']
         self._stop_event = threading.Event()
         Session = sessionmaker(bind=engine)
@@ -34,6 +34,8 @@ class Scraper(threading.Thread):
         super(Scraper, self).join(*args, **kwargs)
 
     def run(self):
+        logger = get_logger()
+        logger.info(f"Starting a scraper {threading.get_ident()}")
         store = Tesco(self.category.store)
         page = 1
         html_session = HTMLSession()
@@ -52,6 +54,8 @@ class Scraper(threading.Thread):
                 if not nutrients_div:
                     continue
                 calories = product.get_calories(nutrients_div)
+                if not calories:
+                    logger.error(f"No calories found for {p.text} {product_link}")
                 price_div = request.html.xpath(product.xpath["price_div"], first=True)
                 price = product.get_price(price_div)
                 product_info = dict(
@@ -65,5 +69,6 @@ class Scraper(threading.Thread):
                     store_id=store.store.id)
                 product.update_or_insert(**product_info)
             page += 1
+        logger.info(f"Stopping a scraper {threading.get_ident()}")
         self.session.commit()
 

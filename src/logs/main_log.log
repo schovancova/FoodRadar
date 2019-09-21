@@ -1,0 +1,30 @@
+INFO:werkzeug:127.0.0.1 - - [21/Sep/2019 12:26:09] "GET /products HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/Sep/2019 12:26:09] "GET /products?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Sep/2019 12:26:09] "GET /products?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Sep/2019 12:26:09] "GET /products?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Sep/2019 12:26:09] "GET /products?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Sep/2019 12:26:09] "GET /products?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/Sep/2019 12:26:09] "GET /products?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2019-09-21 12:28:37,830 - logger - INFO - aaa
+2019-09-21 12:29:30,727 - INFO - aaa
+2019-09-21 12:31:04,075 - INFO - aaa
+2019-09-21 12:37:00,916 - INFO - Starting a scraper 6540
+2019-09-21 12:37:03,065 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001016373513
+2019-09-21 12:37:03,615 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001005139113
+2019-09-21 12:37:04,781 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001016373544
+2019-09-21 12:37:06,738 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001007620213
+2019-09-21 12:37:07,608 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001014739519
+2019-09-21 12:37:08,461 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001120182367
+2019-09-21 12:37:09,403 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001015443293
+2019-09-21 12:37:13,643 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001020000327
+2019-09-21 12:37:15,353 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001019470943
+2019-09-21 12:37:17,781 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001018732479
+2019-09-21 12:37:19,483 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001011354692
+2019-09-21 12:37:24,073 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001006050332
+2019-09-21 12:37:24,936 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001120051425
+2019-09-21 12:37:28,231 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001015092453
+2019-09-21 12:37:31,137 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001015443286
+2019-09-21 12:37:34,493 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001130836812
+2019-09-21 12:37:50,703 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001011393097
+2019-09-21 12:37:54,590 - ERROR - No calories found for https://nakup.itesco.cz/groceries/cs-CZ/products/2001016245667
+2019-09-21 12:37:57,823 - INFO - Stopping a scraper 6540
