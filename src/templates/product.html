@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% set active_page = "products" %}
+{% block content %}
+<table>
+  <tr>
+    <th>Category</th>
+    <td><a href="{{ url_for('category', category_id=product.category_id) }}">{{product.category.full_name}}</a></td>
+  </tr>
+    <tr>
+    <th>Name</th>
+    <td>{{product.name}}</td>
+  </tr>
+    <tr>
+    <th>Link</th>
+    <td><a href="{{store.products_link}}{{product.store_product_id}}" target="_blank">See in store</a> </td>
+  </tr>
+   <tr>
+    <th>Price</th>
+    <td>{{'%0.2f'|format(product.price|float)}}</td>
+  </tr>
+   <tr>
+    <th>Calories</th>
+    <td>{{'%0.2f'|format(product.calories|float) if product.calories else '-'}}</td>
+  </tr>
+</table>
+
+{% endblock %}

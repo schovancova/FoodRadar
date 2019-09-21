@@ -4,6 +4,7 @@ from flask import Flask, render_template, redirect
 
 from src.modules.connector import session, Category, Product, Store
 from src.modules.scraper import Scraper, stop_scraping
+from src.modules.store import Tesco
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/db.db'
@@ -45,6 +46,13 @@ def category(category_id, action):
 def categories():
     stores = session.query(Store).all()
     return render_template('categories.html', stores=stores)
+
+
+@app.route('/product/<product_id>')
+def product(product_id):
+    product_row = session.query(Product).get(product_id)
+    store = Tesco(product_row.store)
+    return render_template('product.html', product=product_row, store=store)
 
 
 if __name__ == '__main__':

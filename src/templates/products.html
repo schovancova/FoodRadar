@@ -11,9 +11,9 @@
  {% for product in products %}
  <tr>
      <td><a href="/category/{{product.category_id}}">{{product.category.full_name}}</a></td>
-  <td>{{product.name}}</td>
-  <td class="numeric">{{'%0.2f'|format(product.price|float)}}</td>
-  <td class="numeric">{{'%0.2f'|format(product.calories|float)}}</td>
+     <td><a href="{{ url_for('product', product_id=product.id) }}">{{product.name}}</a> </td>
+     <td class="numeric">{{'%0.2f'|format(product.price|float)}}</td>
+     <td class="numeric">{{'%0.2f'|format(product.calories|float) if product.calories else '-'}}</td>
  </tr>
  {% endfor %}
 
